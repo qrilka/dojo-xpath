@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <script src="http://yandex.st/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
+    <script src="xpath/Repeat.js" type="text/javascript"></script>
+    <style type="text/css">
+      @import "http://yandex.st/dojo/1.6.1/dojo/resources/dojo.css";
+      @import "http://yandex.st/dojo/1.6.1/dijit/themes/claro/claro.css";
+    </style>
+    <title>dojo-xpath test page</title>
+    <script type="text/javascript">//<![CDATA[
+      var xmlDoc;
+      dojo.require("dijit.form.TextBox");
+      dojo.require("dijit.form.Button");
+      dojo.require("dojo.Stateful");
+      dojo.require("xpath.Repeat");
+      dojo.ready(function() {
+        var xml = new DOMParser().parseFromString(
+          "<object><inner><id>1</id><name>Name A</name><subinner>X</subinner><subinner>Y</subinner></inner>"+
+          "<inner><id>2</id><name>Name B</name></inner></object>", "text/xml");
+        xmlDoc = new dojo.Stateful({xml: xml});
+        dojo.parser.parse();
+      });
+      //]]>
+    </script>
+  </head>
+  <body class="claro">
+    <div data-dojo-type="xpath.Repeat" data-dojo-props="xpath: '//object/inner', doc: 'xmlDoc'">
+      <div data-dojo-type="dijit.form.TextBox" data-dojo-props="value: '$spath{name/text()}'"></div>
+      <div data-dojo-type="dijit.form.Button">Click id $spath{id/text()}
+        <script type="dojo/connect" data-dojo-event="onClick">
+          alert('You\'ve clicked $spath{name/text()}!');
+        </script>
+      </div>
+      <hr/>
+      <!-- here I will put nested Repeat example -->
+    </div>
+  </body>
+</html>
